@@ -49,6 +49,7 @@ public class GreetingResource {
         Gift gift = new Gift();
         gift.setName(name);
         em.persist(gift);
+        em.flush();
         tm.setRollbackOnly();
         return gift;
     }
@@ -86,6 +87,21 @@ public class GreetingResource {
             LargeObjectHelper largeObjectHelper = new LargeObjectHelper(connection);
             return largeObjectHelper.createBlob(bytes);
         });
+    }
+
+    @PUT
+    @Path("/blobcheat/{content}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public long writeblobcheat(@PathParam("content") String content) throws SystemException {
+        ByteArrayInputStream bytes = new ByteArrayInputStream(content.getBytes());
+        long result=  em.unwrap(Session.class).doReturningWork(connection -> {
+            connection.setAutoCommit(false);
+            LargeObjectHelper largeObjectHelper = new LargeObjectHelper(connection);
+            return largeObjectHelper.createBlob(bytes);
+        });
+
+        tm.setRollbackOnly();
+        return result;
     }
 
     @GET
