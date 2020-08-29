@@ -1,5 +1,6 @@
 # start db
 
+```
 docker run --ulimit memlock=-1:-1 -d --rm=true --memory-swappiness=0 \
        --name postgres-quarkus-hibernate -e POSTGRES_USER=hibernate \
        -e POSTGRES_PASSWORD=hibernate \
@@ -7,7 +8,13 @@ docker run --ulimit memlock=-1:-1 -d --rm=true --memory-swappiness=0 \
        
 docker exec -ti postgres-quarkus-hibernate psql -U hibernate -c "CREATE DATABASE hibernate_db"       
 
-docker exec -ti postgres-quarkus-hibernate psql -U hibernate -c "CREATE TABLE Gift(id bigint primary key, name text); CREATE sequence giftSeq;" hibernate_db
+#Wait for initdb
+sleep 5
+
+docker exec -ti postgres-quarkus-hibernate psql -U hibernate -c "CREATE TABLE Gift(id bigint primary key, name text)" hibernate_db
+docker exec -ti postgres-quarkus-hibernate psql -U hibernate -c "CREATE sequence gift_id_seq" hibernate_db
+
+```
 
 # Test output
 
