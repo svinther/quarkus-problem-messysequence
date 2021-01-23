@@ -26,11 +26,11 @@ public class AResourceTest {
     public void clear() throws SQLException {
       try(Connection connection = dataSource.getConnection()) {
           try(Statement statement = connection.createStatement()) {
-              statement.execute("ALTER SEQUENCE giftSeq RESTART WITH 1;");
+              statement.execute("ALTER SEQUENCE gift_id_seq RESTART WITH 1;");
           }
 
           try(Statement statement = connection.createStatement()) {
-              statement.execute("DELETE FROM gift");
+              statement.execute("TRUNCATE gift");
           }
       }
     }

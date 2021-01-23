@@ -8,7 +8,8 @@ public class Gift {
     private String name;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "giftSeq")
+    @SequenceGenerator(name = "giftSeq", sequenceName = "gift_id_seq", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "giftSeq")
     public Long getId() {
         return id;
     }
